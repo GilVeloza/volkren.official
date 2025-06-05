@@ -1,0 +1,21 @@
+/* === SECCIÓN MANO - rings.css === */
+.ring-section {
+    padding: 80px 0;          /* espacio arriba y abajo */
+    text-align: center;
+  }
+  svg#hand-svg {
+    max-width: 300px;
+    width: 60%;
+    height: auto;
+    margin-top: 40px;
+  }
+  svg#hand-svg .finger {
+    fill: #d3d3d3;
+    stroke: #999;
+    cursor: pointer;
+    transition: fill .2s;
+  }
+  svg#hand-svg .finger:hover {
+    fill: #bbb;
+  }
+  
