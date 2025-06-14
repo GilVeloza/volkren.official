@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Hand - Ring Meanings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffd700, #ffffff, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .hand-container {
+            position: relative;
+            width: 500px;
+            max-width: 100%;
+        }
+
+        .hand-svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .finger-area {
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .finger-area:hover {
+            opacity: 0.3;
+        }
+
+        .ring {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700 30%, #ffa500 100%);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 165, 0, 0.5);
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .ring.active {
+            transform: scale(1);
+        }
+
+        #ring-thumb {
+            top: 120px;
+            left: 220px;
+        }
+
+        #ring-index {
+            top: 70px;
+            left: 200px;
+        }
+
+        #ring-middle {
+            top: 50px;
+            left: 245px;
+        }
+
+        #ring-ring {
+            top: 65px;
+            left: 290px;
+        }
+
+        #ring-pinky {
+            top: 95px;
+            left: 320px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .tooltip.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tooltip h3 {
+            color: #1a2a6c;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tooltip p {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-panel h2 {
+            color: #1a2a6c;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .finger-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .finger-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(26, 42, 108, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .finger-item:hover {
+            background: rgba(26, 42, 108, 0.1);
+            transform: translateX(10px);
+        }
+
+        .finger-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1a2a6c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .finger-details h3 {
+            color: #1a2a6c;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .finger-details p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .footer {
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hand-container {
+                width: 400px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Ring Finger Meanings</h1>
+            <p class="subtitle">Hover over fingers to discover the symbolism of wearing rings</p>
+            <p class="description">Throughout history, rings have been worn on different fingers to convey specific
+                meanings and messages. Explore the significance behind each finger placement by hovering over the hand
+                or the finger list.</p>
+        </header>
+
+        <div class="content">
+            <div class="hand-container">
+                <!-- Rings -->
+                <div id="ring-thumb" class="ring"></div>
+                <div id="ring-index" class="ring"></div>
+                <div id="ring-middle" class="ring"></div>
+                <div id="ring-ring" class="ring"></div>
+                <div id="ring-pinky" class="ring"></div>
+
+                <!-- Tooltip -->
+                <div class="tooltip" id="tooltip">
+                    <h3><i class="fa-solid fa-ring"></i> <span id="finger-name">Ring Finger</span></h3>
+                    <p id="finger-description">Symbolizes commitment and romantic relationships.</p>
+                </div>
+
+                <!-- Hand SVG -->
+                <svg class="hand-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hand outline -->
+                    <path
+                        d="M250,350 C200,350 150,320 120,280 C90,240 80,200 90,160 C100,120 130,90 160,70 C190,50 230,40 260,50 C290,60 320,80 340,110 C360,140 370,180 360,220 C350,260 330,290 300,310 C270,330 250,340 250,350 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Fingers -->
+                    <!-- Thumb -->
+                    <path
+                        d="M180,170 C170,150 160,130 160,110 C160,90 170,80 190,80 C210,80 220,90 220,110 C220,130 210,150 200,170 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Index finger -->
+                    <path
+                        d="M200,70 C190,50 185,30 190,10 C195,-10 210,-20 230,-15 C250,-10 260,5 260,25 C260,45 250,65 240,85 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Middle finger -->
+                    <path
+                        d="M240,60 C230,40 225,15 230,-10 C235,-35 255,-45 275,-35 C295,-25 305,-5 300,15 C295,35 285,55 270,75 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Ring finger -->
+                    <path
+                        d="M280,70 C270,50 265,25 270,0 C275,-25 295,-35 315,-25 C335,-15 345,5 340,25 C335,45 325,65 310,85 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Pinky finger -->
+                    <path
+                        d="M310,90 C300,70 295,50 300,30 C305,10 320,0 340,5 C360,10 370,30 365,50 C360,70 350,90 330,110 Z"
+                        fill="#f5d7bf" stroke="#d4a57e" stroke-width="5" />
+
+                    <!-- Interactive areas -->
+                    <path id="thumb-area" class="finger-area"
+                        d="M160,110 Q170,80 190,80 Q210,80 220,110 Q220,130 200,170 Q180,150 160,130 Z" fill="blue">
+                    </path>
+                    <path id="index-area" class="finger-area"
+                        d="M190,10 Q195,-10 210,-15 Q230,-20 240,0 Q245,20 240,45 Q230,65 220,85 Q205,65 195,40 Z"
+                        fill="red"></path>
+                    <path id="middle-area" class="finger-area"
+                        d="M230,-10 Q235,-35 255,-40 Q275,-45 290,-25 Q300,-5 295,20 Q290,45 280,70 Q260,50 240,25 Z"
+                        fill="green"></path>
+                    <path id="ring-area" class="finger-area"
+                        d="M270,0 Q275,-25 295,-30 Q315,-35 330,-15 Q340,5 335,30 Q330,55 320,80 Q300,60 285,35 Z"
+                        fill="purple"></path>
+                    <path id="pinky-area" class="finger-area"
+                        d="M300,30 Q305,10 320,5 Q340,0 355,20 Q360,40 355,60 Q350,80 340,100 Q320,80 310,55 Z"
+                        fill="orange"></path>
+                </svg>
+            </div>
+
+            <div class="info-panel">
+                <h2>Finger Meanings</h2>
+                <div class="finger-info">
+                    <div class="finger-item" data-finger="thumb">
+                        <div class="finger-icon">T</div>
+                        <div class="finger-details">
+                            <h3>Thumb</h3>
+                            <p>Symbolizes willpower and self-assertion. Often represents friendship or independence.</p>
+                        </div>
+                    </div>
+                    <div class="finger-item" data-finger="index">
+                        <div class="finger-icon">I</div>
+                        <div class="finger-details">
+                            <h3>Index Finger</h3>
+                            <p>Represents authority, leadership, and ambition. Often associated with power and
+                                confidence.</p>
+                        </div>
+                    </div>
+                    <div class="finger-item" data-finger="middle">
+                        <div class="finger-icon">M</div>
+                        <div class="finger-details">
+                            <h3>Middle Finger</h3>
+                            <p>Symbolizes balance, responsibility, and self-analysis. Often used for statement rings.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="finger-item" data-finger="ring">
+                        <div class="finger-icon">R</div>
+                        <div class="finger-details">
+                            <h3>Ring Finger</h3>
+                            <p>Represents love, commitment, and romantic relationships. Traditionally for engagement and
+                                wedding rings.</p>
+                        </div>
+                    </div>
+                    <div class="finger-item" data-finger="pinky">
+                        <div class="finger-icon">P</div>
+                        <div class="finger-details">
+                            <h3>Pinky Finger</h3>
+                            <p>Symbolizes communication, intuition, and creativity. Often associated with business or
+                                profession.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Interactive Hand Illustration | Hover over fingers to see ring meanings</p>
+        </div>
+    </div>
+
+    <script>
+        // Finger meanings data
+        const fingerData = {
+            thumb: {
+                name: "Thumb",
+                description: "Symbolizes willpower and self-assertion. Rings on the thumb often represent friendship or independence. In some cultures, thumb rings signify wealth or status.",
+                tooltipPosition: { top: "100px", left: "50px" }
+            },
+            index: {
+                name: "Index Finger",
+                description: "Represents authority, leadership, and ambition. Historically, rings on this finger were worn by those in positions of power. Today it's associated with confidence and self-esteem.",
+                tooltipPosition: { top: "30px", left: "100px" }
+            },
+            middle: {
+                name: "Middle Finger",
+                description: "Symbolizes balance, responsibility, and self-analysis. As the largest finger, it's a bold choice for statement rings. It's said to represent the self and personal values.",
+                tooltipPosition: { top: "10px", left: "220px" }
+            },
+            ring: {
+                name: "Ring Finger",
+                description: "Represents love, commitment, and romantic relationships. This tradition comes from the ancient belief that this finger has a vein directly connected to the heart (vena amoris).",
+                tooltipPosition: { top: "30px", left: "350px" }
+            },
+            pinky: {
+                name: "Pinky Finger",
+                description: "Symbolizes communication, intuition, and creativity. Pinky rings are often associated with business or profession. They can also signify membership in organizations or marital status.",
+                tooltipPosition: { top: "60px", left: "400px" }
+            }
+        };
+
+        // DOM elements
+        const tooltip = document.getElementById('tooltip');
+        const fingerName = document.getElementById('finger-name');
+        const fingerDescription = document.getElementById('finger-description');
+        const rings = {
+            thumb: document.getElementById('ring-thumb'),
+            index: document.getElementById('ring-index'),
+            middle: document.getElementById('ring-middle'),
+            ring: document.getElementById('ring-ring'),
+            pinky: document.getElementById('ring-pinky')
+        };
+
+        // Function to show ring and tooltip
+        function showFingerInfo(finger) {
+            // Update tooltip content
+            fingerName.textContent = fingerData[finger].name;
+            fingerDescription.textContent = fingerData[finger].description;
+
+            // Position tooltip
+            tooltip.style.top = fingerData[finger].tooltipPosition.top;
+            tooltip.style.left = fingerData[finger].tooltipPosition.left;
+
+            // Show ring and tooltip
+            rings[finger].classList.add('active');
+            tooltip.classList.add('active');
+
+            // Hide other rings
+            Object.keys(rings).forEach(key => {
+                if (key !== finger) {
+                    rings[key].classList.remove('active');
+                }
+            });
+        }
+
+        // Function to hide all rings and tooltip
+        function hideFingerInfo() {
+            Object.values(rings).forEach(ring => {
+                ring.classList.remove('active');
+            });
+            tooltip.classList.remove('active');
+        }
+
+        // Set up hover events for SVG areas
+        document.getElementById('thumb-area').addEventListener('mouseenter', () => showFingerInfo('thumb'));
+        document.getElementById('index-area').addEventListener('mouseenter', () => showFingerInfo('index'));
+        document.getElementById('middle-area').addEventListener('mouseenter', () => showFingerInfo('middle'));
+        document.getElementById('ring-area').addEventListener('mouseenter', () => showFingerInfo('ring'));
+        document.getElementById('pinky-area').addEventListener('mouseenter', () => showFingerInfo('pinky'));
+
+        // Set up hover events for finger items
+        document.querySelectorAll('.finger-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const finger = item.getAttribute('data-finger');
+                showFingerInfo(finger);
+            });
+        });
+
+        // Hide on mouseleave
+        document.querySelector('.hand-container').addEventListener('mouseleave', hideFingerInfo);
+        document.querySelector('.finger-info').addEventListener('mouseleave', hideFingerInfo);
+    </script>
+</body>
+
+</html>
