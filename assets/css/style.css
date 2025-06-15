@@ -704,11 +704,7 @@ a.bg-danger:hover {
   background-color: #c00
 }
 
-.page-header {
-  padding-bottom: 8.5px;
-  margin: 38px 0 19px;
-  border-bottom: 1px solid #eee
-}
+
 
 ol,
 ul {
@@ -2010,10 +2006,7 @@ th {
   border-top: 1px solid #ddd
 }
 
-.table>thead>tr>th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #ddd
-}
+
 
 .table>caption+thead>tr:first-child>td,
 .table>caption+thead>tr:first-child>th,
@@ -2260,6 +2253,44 @@ table th[class*=col-] {
   margin-top: 30px;
   margin-bottom: 50px;
   /* Espacio adicional desde la sección de título */
+}
+
+/* Estilos para el slider con texto blanco */
+.slider {
+  color: #fff;
+}
+
+.slider .content {
+  color: #fff;
+}
+
+.slider .title {
+  color: #fff;
+  font-weight: 700;
+  font-family: "Inconsolata", monospace;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.slider h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+.slider .content div {
+  margin: 1rem 0;
+}
+
+/* Asegurar que los elementos de navegación del slider también sean blancos */
+.navhand {
+  color: #fff;
+}
+
+.navhand .btn {
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 fieldset {
@@ -2787,6 +2818,136 @@ textarea.input-lg {
   border-color: #e6e6e6;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #fff;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #fff
+}
+
+/* Footer Styles */
+.footer-container {
+  background-color: #000;
+  color: #fff;
+  padding: 50px 0 30px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.footer-section {
+  margin-bottom: 30px;
+}
+
+.footer-section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #fff;
+}
+
+.footer-email-form {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.footer-email-input {
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 8px 12px;
+  flex-grow: 1;
+}
+
+.footer-submit-btn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+/* Añadir estos estilos para centrar el logo en la navbar */
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  z-index: 1030;
+}
+
+.navbar-logo {
+  height: 60px;
+  width: auto;
+  display: block;
+  margin: 7px 0;
+}
+
+
+/* Asegurar que los elementos de navegación no se superpongan con el logo */
+.navbar-nav.navbar-right {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.navbar-nav.navbar-left {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+  .navbar-brand {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+  }
+
+  .navbar-header {
+    text-align: center;
+  }
+}
+
+transition: all 0.3s ease;
+}
+
+.footer-submit-btn:hover {
+  background-color: #ccc;
+}
+
+.footer-promo-text {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .footer-row {
+    flex-direction: column;
+  }
+
+  .footer-section {
+    width: 100%;
+    margin-bottom: 30px;
+  }
 }
 
 .has-error .input-group-addon {
@@ -4461,9 +4622,75 @@ tbody.collapse.in {
   margin: -10px -15px;
   padding: 10px 15px;
   border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  -webkit-box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .1), 0 1px 0 hsla(0, 0%, 100%, .1);
-  box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .1), 0 1px 0 hsla(0, 0%, 100%, .1)
+}
+
+/* Estilos para navbar blanca solo en páginas internas */
+body:not(.minimal) .navbar-inverse {
+  background-color: #fff !important;
+  border-color: transparent;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-brand,
+body:not(.minimal) .navbar-inverse .navbar-nav>li>a {
+  color: #000;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-nav>li>a:hover,
+body:not(.minimal) .navbar-inverse .navbar-nav>li>a:focus,
+body:not(.minimal) .navbar-inverse .navbar-nav>.active>a,
+body:not(.minimal) .navbar-inverse .navbar-nav>.active>a:hover,
+body:not(.minimal) .navbar-inverse .navbar-nav>.active>a:focus {
+  color: #001aff;
+  background-color: transparent;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-toggle {
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-toggle:hover,
+body:not(.minimal) .navbar-inverse .navbar-toggle:focus {
+  background-color: #f5f5f5;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-toggle .icon-bar {
+  background-color: #000;
+}
+
+body:not(.minimal) .navbar-inverse .navbar-collapse {
+  background-color: #fff;
+}
+
+/* Mantener la navbar original en la página de inicio */
+body.minimal .navbar-inverse {
+  background-color: transparent !important;
+}
+
+body.minimal .navbar-inverse .navbar-brand,
+body.minimal .navbar-inverse .navbar-nav>li>a {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  body:not(.minimal) .navbar-inverse {
+    background-color: #fff !important;
+  }
+
+  body:not(.minimal) .navbar-inverse .navbar-collapse {
+    background-color: #fff;
+  }
+
+  body.minimal .navbar-inverse .navbar-collapse {
+    background-color: #000;
+  }
+}
+
+border-bottom: 1px solid transparent;
+-webkit-box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .1),
+0 1px 0 hsla(0, 0%, 100%, .1);
+box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .1),
+0 1px 0 hsla(0, 0%, 100%, .1)
 }
 
 @media (min-width:768px) {
@@ -5702,49 +5929,7 @@ button.close {
   }
 }
 
-#site-border-bottom,
-#site-border-left,
-#site-border-right,
-#site-border-top {
-  background: #000;
-  position: fixed;
-  z-index: 1
-}
 
-#site-border-left,
-#site-border-right {
-  top: 0;
-  bottom: 0;
-  width: 10px
-}
-
-#site-border-left {
-  left: 0
-}
-
-#site-border-right {
-  right: 0
-}
-
-#site-border-bottom,
-#site-border-top {
-  left: 0;
-  right: 0;
-  height: 10px
-}
-
-#site-border-top {
-  top: 0
-}
-
-#site-border-bottom {
-  bottom: 0
-}
-
-body {
-  padding: 10px;
-  min-height: 100vh
-}
 
 body.minimal {
   border: none;
@@ -6336,7 +6521,7 @@ textarea {
 }
 
 .navhand .btn {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255);
   color: rgba(0, 0, 0, 0.7);
   border: 2px solid rgba(0, 0, 0, 0.6);
   margin: 0 0.25rem;
@@ -6347,7 +6532,7 @@ textarea {
 }
 
 .navhand .btn:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .template-example {
